@@ -1,0 +1,50 @@
+<!--
+ * @Author: zhangchunjie8 zhangchunjie8@jd.com
+ * @Date: 2023-08-03 21:40:45
+ * @LastEditors: zhangchunjie8 zhangchunjie8@jd.com
+ * @LastEditTime: 2023-08-08 21:38:32
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">hello world</div>
+  <script src="./dist/vue.js"></script>
+  <script>
+    // umd Vue
+    // console.log(window.Vue);
+
+    // 响应式 vue2
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        console.log('====this', this);
+        return {
+          msg: 'hello zcj',
+          obj: {
+            a: 1,
+            b: {
+              c: 2
+            }
+          }
+        }
+      },
+      props: {
+
+      },
+      watch: {
+        
+      },
+    });
+
+    console.log('=======vm', vm._data);
+    vm._data.msg = 'hello world'
+    vm._data.obj.b = { d: 4}
+    console.log('=======vm', vm._data);
+  </script>
+</body>
+</html>

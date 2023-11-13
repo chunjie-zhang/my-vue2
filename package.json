@@ -1,0 +1,20 @@
+{
+  "name": "my-vue2",
+  "version": "1.0.0",
+  "description": "我的简易vue2",
+  "main": "index.js",
+  "scripts": {
+    "serve": "rollup -c -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "rollup": "^3.27.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-serve": "^2.0.2"
+  }
+}
