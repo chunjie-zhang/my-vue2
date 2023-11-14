@@ -29,7 +29,8 @@
             a: 1,
             b: {
               c: 2
-            }
+            },
+            list: [1,2,3,4]
           }
         }
       },
@@ -41,10 +42,12 @@
       },
     });
 
-    console.log('=======vm', vm._data);
+    console.log('=======vm1', vm._data);
     vm._data.msg = 'hello world'
     vm._data.obj.b = { d: 4}
-    console.log('=======vm', vm._data);
+    console.log('=======vm2', vm._data);
+    vm._data.obj.list.push(20);
+    console.log('=======vm3', vm._data);
   </script>
 </body>
 </html>

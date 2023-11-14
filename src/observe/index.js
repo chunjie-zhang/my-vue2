@@ -4,15 +4,16 @@
  * @LastEditors: zhangchunjie8 zhangchunjie8@jd.com
  * @LastEditTime: 2023-08-09 10:10:08
  */
+import { ArrayMethods } from './array'
 
 export function observer(data) {
   console.log('====observer', data);
-  // 判断如果不是对象或者是null直接返回
+  // 判断如果不是对象或者是null直接返回--基本数据类型
   if (typeof data !== "object" || data === null) {
     return data
   }
 
-  // 如果是一个对象，进行数据劫持
+  // 如果是一个对象，进行数据劫持-引用类型
   return new Observer(data);
 }
 
@@ -24,7 +25,16 @@ export function observer(data) {
 */
 class Observer {
   constructor(data) {
-    this.walk(data);
+    // 判断数据
+    if (Array.isArray(data)) {
+      // 数组函数劫持
+      data.__proto__ = ArrayMethods
+      // 如果是数组对象[{a: 1}]，处理数组对象
+      this.observerArray(data)
+    } else {
+      // 对象遍历
+      this.walk(data);
+    }
   }
   /**
    * 遍历对象属性
@@ -38,6 +48,16 @@ class Observer {
       let value = data[key];
       defineReactive(data, key, value)
     }
+  } 
+  /**
+   * 数组对象[{a: 1}]进行劫持
+   * 对数组里的所有项进行数据劫持
+   * @param {*} data 
+   */
+  observerArray(data) {
+    data.forEach((item) => {
+      observer(item)
+    });
   }
 }
 
@@ -48,7 +68,6 @@ function defineReactive (data, key, value) {
 
   Object.defineProperty(data, key, {
     get() {
-      console.log('=======获取');
       return value;
     },
     set(newVal) {
@@ -67,8 +86,11 @@ function defineReactive (data, key, value) {
 
 /**
  * 总结：
+ * 对象：
  * 1. Object.defineProperty 有缺点 只能对对象的一个属性进行劫持
  * 2. 遍历， 只能对对象的第一层进行劫持
- * 3. 需要递归对对象的深度属性进行劫持
+ * 3. 需要递归对对象的深度属性进行劫持 get set
  * 4. get set
+ * 数组：
+ * 1. 方法函数劫持，劫持数组方法
 */
