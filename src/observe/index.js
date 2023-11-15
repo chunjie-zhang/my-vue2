@@ -27,6 +27,24 @@ class Observer {
   constructor(data) {
     // 判断数据
     if (Array.isArray(data)) {
+      /**
+      * 给data定义一个属性
+      * Object.defineproperty(obj, prop, desc)
+      * obj :  第一个参数就是要在哪个对象身上添加或者修改属性
+      * prop : 第二个参数就是添加或修改的属性名
+      * desc ： 配置项，一般是一个对象
+      *    第三个参数里面还有6个配置控住属性
+      *     writable：是否可重写
+      *     value：当前值
+      *     get：读取时内部调用的函数
+      *     set：写入时内部调用的函数
+      *     enumerable：是否可以遍历
+      *     configurable： 是否可再次修改配置项
+     */
+      Object.defineProperty(data, "__ob__", {
+        enumerable: false, // 不可枚举
+        value: this,
+      })
       // 数组函数劫持
       data.__proto__ = ArrayMethods
       // 如果是数组对象[{a: 1}]，处理数组对象

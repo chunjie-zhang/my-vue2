@@ -19,6 +19,20 @@ methods.forEach((item) => {
   ArrayMethods[item] = function (...args) {
     console.log('数组数据劫持');
     let result = oldArrayProtoMethods[item].apply(this, args);
+    // 数组追加对象的情况 arr.push({e: 6})
+    let inserted; // 拿到要追加的数据
+    switch (item) {
+      case 'push':
+      case 'unshift':
+        inserted = args;
+        break;
+      case 'splice':
+        inserted = args.splice(2);
+    }
+    let ob = this.__ob__;
+    if (inserted) {
+      ob.observerArray(inserted); // 对添加的对象进行劫持
+    }
     return result;
   }
 })
