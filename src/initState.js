@@ -45,6 +45,22 @@ function initData(vm) {
   // 如果data是函数形式，函数内的this应该指向vue实例，不然就是window
   data = vm._data = typeof data === 'function' ? data.call(vm) : data;
 
+  // 将data上的所有属性代理到实例上vm
+  for (const key in data) {
+    proxy(vm, '_data' ,key)
+  }
+
   // data数据进行劫持,data对象的value可能是对象，也可能是数组，也可能是原始类型
   observer(data);
+}
+
+function proxy (vm, source, key) {
+  Object.defineProperty(vm, key, {
+    get() {
+      return vm[source][key];
+    },
+    set(newVal) {
+      vm[source][key] = newVal;
+    }
+  })
 }

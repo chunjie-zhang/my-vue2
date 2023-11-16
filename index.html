@@ -25,6 +25,7 @@
         console.log('====this', this);
         return {
           msg: 'hello zcj',
+          data: 1,
           obj: {
             a: 1,
             b: {
@@ -42,7 +43,7 @@
       },
     });
 
-    console.log('=======vm1', vm._data);
+    console.log('=======vm1', vm._data,);
     vm._data.msg = 'hello world'
     vm._data.obj.b = { d: 4}
     console.log('=======vm2', vm._data);
@@ -50,6 +51,8 @@
     console.log('=======vm3', vm._data);
     vm._data.obj.list.push({e: 6});
     console.log('=======vm4', vm._data);
+    console.log('=======vm5', vm.obj.list);
+    console.log('=======vm6', vm);
   </script>
 </body>
 </html>
