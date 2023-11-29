@@ -12,5 +12,26 @@ export const initMixin = function (Vue) {
     vm.$options = options;
     // 初始化状态
     initState(vm);
+
+    // 渲染模版 el
+    if (vm.$options.el) {
+      vm.$mount(vm.$options.el);
+    }
+  }
+
+  Vue.prototype.$mount = function(el) {
+    // el -> template -> render
+    let vm = this;
+    // 获取元素
+    el = document.querySelector(el);
+    let options = vm.$options;
+    if(!options.render) {
+      let template = options.template;
+      if (!template && el) {
+        // 获取html
+        el = el.outerHTML;
+        console.log('======', el);
+      }
+    }
   }
 }

@@ -17,7 +17,6 @@ let methods = [
 
 methods.forEach((item) => {
   ArrayMethods[item] = function (...args) {
-    console.log('数组数据劫持');
     let result = oldArrayProtoMethods[item].apply(this, args);
     // 数组追加对象的情况 arr.push({e: 6})
     let inserted; // 拿到要追加的数据

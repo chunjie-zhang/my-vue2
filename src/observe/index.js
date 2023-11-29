@@ -7,7 +7,6 @@
 import { ArrayMethods } from './array'
 
 export function observer(data) {
-  console.log('====observer', data);
   // 判断如果不是对象或者是null直接返回--基本数据类型
   if (typeof data !== "object" || data === null) {
     return data
