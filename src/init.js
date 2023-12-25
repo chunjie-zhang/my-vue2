@@ -5,6 +5,7 @@
  * @LastEditTime: 2023-08-08 20:59:25
  */
 import { initState } from './initState'
+import { compileToFunction } from './compile/index'
 
 export const initMixin = function (Vue) {
   Vue.prototype._init = function(options) {
@@ -31,7 +32,19 @@ export const initMixin = function (Vue) {
         // 获取html
         el = el.outerHTML;
         console.log('======', el);
+        // 变成AST语法树
+        let ast = compileToFunction(el);
       }
     }
   }
 }
+
+/**
+ * ast语法树 {} vnode {}
+ * <div id="app">{{ msg }}</div>
+ * {
+ *   tag: 'div',
+ *   attr: [{id: 'app}],
+ * children: [{tag: null, text: hello}]
+ * }
+*/
