@@ -19,3 +19,5 @@ template render el
 1. 有render执行render
 2. 无render找template，template编译为render函数执行；
 3. 无template用el.outerHTML编译为temlpate在编译为render然后执行
+
+![编译图片](https://cdn.jsdelivr.net/gh/chunjie-zhang/common-drawing-bed@dev/xxx/lifecycle.67er4mv42ac0.webp)

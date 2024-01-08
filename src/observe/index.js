@@ -80,7 +80,7 @@ class Observer {
 
 // 对对象中的属性进行劫持
 function defineReactive (data, key, value) {
-  // 深度代理
+  // value可能是一个对象,需要对其进行响应式处 - 深度代理
   observer(value);
 
   Object.defineProperty(data, key, {
