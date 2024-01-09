@@ -31,7 +31,7 @@ export const initMixin = function (Vue) {
       if (!template && el) {
         // 获取html
         el = el.outerHTML;
-        console.log('======', el);
+        console.log('======el', el);
         // 变成AST语法树
         let ast = compileToFunction(el);
       }
