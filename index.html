@@ -12,9 +12,9 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app">
-    <div class="container" style="color: red; font-size: 14px">
-      {{ msg }}
+  <div id="app" style="font-size: 14px">
+    <div class="container" style="color: red;">
+      hello, {{ msg }} 你好。
     </div>
     <h1>Vue</h1>
   </div>
@@ -29,7 +29,7 @@
       data() {
         console.log('====this', this);
         return {
-          msg: 'hello zcj',
+          msg: 'zcj',
           data: 1,
           obj: {
             a: 1,
