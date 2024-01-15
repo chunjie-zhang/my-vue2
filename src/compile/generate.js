@@ -54,7 +54,7 @@ function gen (node) {
     // 如果不是插值表达式
     if (!defaultTagRE.test(text)) {
       // stringify是为了加上'',让传入的值变成字符串
-      console.log('=======!defaultTagRE.test(text)', text, JSON.stringify(text));
+      // console.log('=======!defaultTagRE.test(text)', text, JSON.stringify(text));
       return `_v(${JSON.stringify(text)})`
     }
     // 如果是插值表达式
@@ -62,10 +62,12 @@ function gen (node) {
     // 解决先匹配/a/g.test('abs') true 然后匹配 a/g.test('abc') false 因为他的lastIndex变化了，从第二个开始了；需要重置才能正确使用
     let lastIndex = defaultTagRE.lastIndex = 0; // 重置正则匹配的起始位置
     let match;
+
+    // 文本有多个插值表达式，用while循环
     while (match = defaultTagRE.exec(text)) {
       //  ['{{ mg }}', ' mg ', index: 14, input: '\n      hello, {{ mg }}\n    ', groups: undefined]
-      console.log('========match', match);
-
+      // console.log('========match', match);
+      
       // 匹配到插值表达式的str索引
       let index = match.index;
 
@@ -80,13 +82,14 @@ function gen (node) {
       // 将lastIndex指向插值表达式后面的索引
       lastIndex = index + match[0].length;
 
-      // 如果插值表达式后面还有文本
-      if (lastIndex < text.length) {
-        tokens.push(JSON.stringify(text.slice(lastIndex)));
-      }
-
-      return `_v(${tokens.join('+')})`
     }
+    // 如果插值表达式后面还有文本
+    if (lastIndex < text.length) {
+      tokens.push(JSON.stringify(text.slice(lastIndex)));
+    }
+
+    return `_v(${tokens.join('+')})`
+
   }
 }
 
@@ -111,7 +114,8 @@ function genChildren (el) {
 export function generate(el) {
   console.log('========generate', el);
   let children = genChildren(el);
-  let code = `_c(${el.tag}, ${el.attrs.length ? `${genProps(el.attrs)}` : 'null'}, ${children ? children : 'null'})`
+  let code = `_c(${el.tag}, ${el.attrs.length ? `${genProps(el.attrs)}` : 'undefined'}${children ? `,${children}` : 'undefined'})`
   // =======code _c(div, {class:"container",style:{"color":" red"}}, _v("\n      hello, "+_s(mg)+" 你好。\n    "))
   console.log('=======code', code);
+  return code;
 }

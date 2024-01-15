@@ -52,7 +52,7 @@ function startTag(tag, attrs) {
 function charts(text) {
   // console.log('========charts', text);
   // 去掉左右空格
-  text = text.replace(/s/g, '')
+  text = text.replace(/\s/g, '')
   if (text) {
     createParent.children.push({
       type: 3, // 文本类型为3
@@ -136,6 +136,7 @@ export function parseHTML(html) {
 
       while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
         // console.log('=======attr', attr, html, (html.match(startTagClose)));
+        // 因为等号两边可能有空格,所以value可能是attr[3]或[4]或[5]
         match.attrs.push({name: attr[1], value: attr[3] || attr[4] || attr[5]});
         // 删除开始标签的属性  >{{ msg }}</div>
         advance(attr[0].length);
