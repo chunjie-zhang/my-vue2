@@ -5,6 +5,9 @@
  * @LastEditTime: 2023-08-08 20:51:48
  */
 import { initMixin } from './init';
+import { lifecycleMixin } from './lifecycle';
+import { renderMixin } from './vnode/index';
+
 /**
  *  Vue的入口文件
  * @param {*} options 
@@ -14,6 +17,19 @@ function Vue(options) {
   this._init(options);
 }
 
+/***
+ * 初始化加载
+ */
 initMixin(Vue);
+
+/*** 
+ * 注册生命周期函数
+*/
+lifecycleMixin(Vue)
+
+/**
+ * 添加_render方法
+ */
+renderMixin(Vue);
 
 export default Vue;

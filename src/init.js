@@ -6,8 +6,20 @@
  */
 import { initState } from './initState'
 import { compileToFunction } from './compile/index'
+import { mounteComponent } from './lifecycle';
 
+/**
+ * 初始化Vue的原型方法
+ *
+ * @param {*} Vue
+ */
 export const initMixin = function (Vue) {
+  /**
+   * 初始化Vue将data转为响应式数据
+   * 挂载vue模版
+   *
+   * @param {*} Vue
+   */
   Vue.prototype._init = function(options) {
     let vm = this;
     vm.$options = options;
@@ -20,7 +32,12 @@ export const initMixin = function (Vue) {
     }
   }
 
-  Vue.prototype.$mount = function(el) {
+/**
+ * 挂载模版
+ *
+ * @param {*} el
+ */
+Vue.prototype.$mount = function(el) {
     // el -> template -> render
     let vm = this;
     // 获取元素
@@ -32,19 +49,14 @@ export const initMixin = function (Vue) {
         // 获取html
         el = el.outerHTML;
         console.log('======el', el);
-        // 变成AST语法树
-        let ast = compileToFunction(el);
+        // 变成render函数
+        let render = compileToFunction(el);
+        console.log('=======render', render);
+        // （1）将render函数变为vnode （2）vnode变为真实dom放到页面上
+        options.render = render;
       }
     }
+    // 挂载组件
+    mounteComponent(vm, el);
   }
 }
-
-/**
- * ast语法树 {} vnode {}
- * <div id="app">{{ msg }}</div>
- * {
- *   tag: 'div',
- *   attr: [{id: 'app}],
- * children: [{tag: null, text: hello}]
- * }
-*/
