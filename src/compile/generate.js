@@ -114,7 +114,7 @@ function genChildren (el) {
 export function generate(el) {
   console.log('========generate', el);
   let children = genChildren(el);
-  let code = `_c(${el.tag}, ${el.attrs.length ? `${genProps(el.attrs)}` : 'undefined'}${children ? `,${children}` : 'undefined'})`
+  let code = `_c('${el.tag}', ${el.attrs.length ? `${genProps(el.attrs)}` : 'undefined'}${children ? `,${children}` : 'undefined'})`
   // =======code _c(div, {class:"container",style:{"color":" red"}}, _v("\n      hello, "+_s(mg)+" 你好。\n    "))
   console.log('=======code', code);
   return code;

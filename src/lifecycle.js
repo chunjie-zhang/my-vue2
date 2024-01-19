@@ -8,7 +8,7 @@
  */
 export function mounteComponent (vm, el) {
   // 
-  vm_updata(vm_render())
+  vm._updata(vm._render())
 }
 
 /**
