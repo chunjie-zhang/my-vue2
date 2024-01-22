@@ -42,6 +42,7 @@ Vue.prototype.$mount = function(el) {
     let vm = this;
     // 获取元素
     el = document.querySelector(el);
+    vm.$el = el;
     let options = vm.$options;
     if(!options.render) {
       let template = options.template;

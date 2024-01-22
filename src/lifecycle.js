@@ -1,3 +1,5 @@
+import { patch } from "./vnode/patch";
+
 /**
  * 挂载组件
  * （1）vm._render 将render函数变为vnode
@@ -22,7 +24,11 @@ export function mounteComponent (vm, el) {
 export function lifecycleMixin(Vue) {
 
   Vue.prototype._updata = function (vnode) {
-
+    console.log('=======vnode', vnode);
+    let vm = this;
+    
+    // 两个参数 (1) 旧dom (2) vnode
+    vm.$el = patch(vm.$el, vnode);
   }
 
 

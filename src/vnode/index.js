@@ -1,5 +1,5 @@
+// 将render函数变为vnode
 /**
- *
  *
  * @export
  * @param {*} Vue
@@ -38,7 +38,6 @@ export function renderMixin (Vue) {
     let vm = this;
     let render = vm.$options.render;
     let vnode = render.call(this)
-    console.log('======vnode', vnode);
     return vnode;
   }
 }
@@ -70,7 +69,7 @@ function vnode (tag, data, key, children, text) {
  * @return {*} 
  */
 function createElement(tag, data={}, ...children) {
-  return vnode(tag, data, ...children);
+  return vnode(tag, data, data.key, children);
 }
 
 /**
