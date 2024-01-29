@@ -1,9 +1,9 @@
 export function patch(oldVnode, vnode) {
-  console.log(oldVnode, vnode);
+  // console.log(oldVnode, vnode);
   // vnode => 真实dom
   // 创建新dom
   let el = createEl(vnode);
-  console.log('=======el', el);
+  // console.log('=======el', el);
   // (2) 替换 （1）获取父节点 (2) 插入 (3) 删除
   let parentEl = oldVnode.parentNode;
   parentEl.insertBefore(el, oldVnode.nextsibling);

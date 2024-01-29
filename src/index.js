@@ -4,6 +4,7 @@
  * @LastEditors: zhangchunjie8 zhangchunjie8@jd.com
  * @LastEditTime: 2023-08-08 20:51:48
  */
+import { initGlobalApi } from './global-api/index';
 import { initMixin } from './init';
 import { lifecycleMixin } from './lifecycle';
 import { renderMixin } from './vnode/index';
@@ -31,5 +32,11 @@ lifecycleMixin(Vue)
  * 添加_render方法
  */
 renderMixin(Vue);
+
+/***
+ * 全局方法
+ * Vue.mixin Vue.component Vue.extend
+ */
+initGlobalApi(Vue)
 
 export default Vue;

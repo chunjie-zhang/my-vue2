@@ -49,10 +49,10 @@ Vue.prototype.$mount = function(el) {
       if (!template && el) {
         // 获取html
         el = el.outerHTML;
-        console.log('======el', el);
+        // console.log('======el', el);
         // 变成render函数
         let render = compileToFunction(el);
-        console.log('=======render', render);
+        // console.log('=======render', render);
         // （1）将render函数变为vnode （2）vnode变为真实dom放到页面上
         options.render = render;
       }

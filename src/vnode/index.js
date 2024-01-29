@@ -10,7 +10,7 @@ export function renderMixin (Vue) {
    * 标签
    */
   Vue.prototype._c = function () {
-    console.log('=======_c', ...arguments);
+    // console.log('=======_c', ...arguments);
     return createElement(...arguments)
   }
 

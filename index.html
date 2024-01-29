@@ -17,6 +17,17 @@
   <script>
     // umd Vue
     // console.log(window.Vue);
+    Vue.mixin({
+      created: function a() {
+        console.log('=====global-created');
+      }
+    })
+
+    Vue.mixin({
+      created: function b() {
+        console.log('=====global-created');
+      }
+    })
 
     // 响应式 vue2
     const vm = new Vue({
@@ -40,6 +51,9 @@
       },
       watch: {
         
+      },
+      created() {
+        console.log('======created');
       },
     });
 

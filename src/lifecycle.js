@@ -24,7 +24,7 @@ export function mounteComponent (vm, el) {
 export function lifecycleMixin(Vue) {
 
   Vue.prototype._updata = function (vnode) {
-    console.log('=======vnode', vnode);
+    // console.log('=======vnode', vnode);
     let vm = this;
     
     // 两个参数 (1) 旧dom (2) vnode

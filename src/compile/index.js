@@ -2,11 +2,11 @@ import { parseHTML } from './parseAst';
 import { generate } from './generate';
 
 export function compileToFunction (el) {
-  console.log('=====compileToFunction', el);
+  // console.log('=====compileToFunction', el);
 
   // 1 将html变为ast语法树
   let ast = parseHTML(el)
-  console.log('=========ast', ast);
+  // console.log('=========ast', ast);
 
   /**
    * 2 ast语法树变为 render 函数：
