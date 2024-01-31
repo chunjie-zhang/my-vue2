@@ -24,4 +24,4 @@ template render el
 
 ## 3.vue的生命周期
 (1) Vue.mixin() // 混入
-(2) 设计模式 发布订阅 
+(2) 设计模式 发布订阅 vue options:{data: [], watch:[]}

@@ -6,7 +6,8 @@
  */
 import { initState } from './initState'
 import { compileToFunction } from './compile/index'
-import { mounteComponent } from './lifecycle';
+import { callHook, mounteComponent } from './lifecycle';
+import { mergeOptions } from './utils/index';
 
 /**
  * 初始化Vue的原型方法
@@ -22,9 +23,15 @@ export const initMixin = function (Vue) {
    */
   Vue.prototype._init = function(options) {
     let vm = this;
-    vm.$options = options;
+    // 合并vue的实参数据和vue的Mixin,主要针对生命周期、watch
+    vm.$options = mergeOptions(Vue.options, options);
+
+    callHook(vm, 'beforeCreate')
+
     // 初始化状态
     initState(vm);
+
+    callHook(vm, 'created')
 
     // 渲染模版 el
     if (vm.$options.el) {

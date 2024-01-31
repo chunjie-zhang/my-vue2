@@ -11,7 +11,15 @@ export const HOOKS = [
 
 // 策略模式
 let starts = {};
-starts.data = function(){}; // 合并data
+/**
+ * 如果不处理返回，$options.data返回的是undefined，会导致报错
+ * @param {*} parentVal 
+ * @param {*} childVal 
+ * @returns 
+ */
+starts.data = function(parentVal, childVal) {
+  return childVal;
+}; // 合并data
 starts.computed = function(){}; // 合并computed
 starts.watch = function(){}; // 合并watch
 starts.methods = function(){}; // 合并methods
