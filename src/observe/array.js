@@ -32,6 +32,8 @@ methods.forEach((item) => {
     if (inserted) {
       ob.observerArray(inserted); // 对添加的对象进行劫持
     }
+    // 触发dep，更新视图
+    ob.dep.notify();
     return result;
   }
 })

@@ -1,3 +1,4 @@
+import Watcher from "./observe/watcher";
 import { patch } from "./vnode/patch";
 
 /**
@@ -9,11 +10,18 @@ import { patch } from "./vnode/patch";
  * @param {*} el 
  */
 export function mounteComponent (vm, el) {
+  // 调用beforeMount生命周期
   callHook(vm, 'beforeMount');
   // 挂载组件
   // （1）vm._render 将render函数变为vnode
   // （2）vm._update将vnode变为真实dom放到页面
-  vm._updata(vm._render())
+  let updateComponent = () => {
+    vm._updata(vm._render())
+  }
+  // 每个组件添加watcher
+  new Watcher(vm, updateComponent, () =>{}, true);
+
+  // 调用mounted生命周期
   callHook(vm, 'mounted');
 }
 
@@ -50,6 +58,6 @@ export function callHook(vm, hook) {
       // 改变生命周期的this指向问题
       handlers[i].call(this)
     }
-    console.log('======this', hook, this);
+    // console.log('======this', hook, this);
   }
 }

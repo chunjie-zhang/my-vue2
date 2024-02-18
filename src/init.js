@@ -26,11 +26,13 @@ export const initMixin = function (Vue) {
     // 合并vue的实参数据和vue的Mixin,主要针对生命周期、watch
     vm.$options = mergeOptions(Vue.options, options);
 
+    // 调用beforeCreate方法
     callHook(vm, 'beforeCreate')
 
     // 初始化状态
     initState(vm);
 
+    // 调用created生命周期
     callHook(vm, 'created')
 
     // 渲染模版 el
@@ -57,7 +59,7 @@ Vue.prototype.$mount = function(el) {
         // 获取html
         el = el.outerHTML;
         // console.log('======el', el);
-        // 变成render函数
+        // 将html变成render函数
         let render = compileToFunction(el);
         // console.log('=======render', render);
         // （1）将render函数变为vnode （2）vnode变为真实dom放到页面上

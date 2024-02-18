@@ -5,10 +5,11 @@
  * @LastEditTime: 2023-08-09 10:10:08
  */
 import { ArrayMethods } from './array'
+import Dep from './dep'
 
 export function observer(data) {
   // 判断如果不是对象或者是null直接返回--基本数据类型
-  if (typeof data !== "object" || data === null) {
+  if (typeof data !== "object" || data == null) {
     return data
   }
 
@@ -24,6 +25,9 @@ export function observer(data) {
 */
 class Observer {
   constructor(data) {
+    // 给所有的对象类型添加一个dep【】
+    this.dep = new Dep();
+
     // 判断数据
     if (Array.isArray(data)) {
       /**
@@ -40,10 +44,10 @@ class Observer {
       *     enumerable：是否可以遍历
       *     configurable： 是否可再次修改配置项
      */
-      Object.defineProperty(data, "__ob__", {
-        enumerable: false, // 不可枚举
-        value: this,
-      })
+    Object.defineProperty(data, "__ob__", {
+      enumerable: false, // 不可枚举
+      value: this,
+    })
       // 数组函数劫持
       data.__proto__ = ArrayMethods
       // 如果是数组对象[{a: 1}]，处理数组对象
@@ -80,11 +84,22 @@ class Observer {
 
 // 对对象中的属性进行劫持
 function defineReactive (data, key, value) {
-  // value可能是一个对象,需要对其进行响应式处 - 深度代理
-  observer(value);
+  // value可能是一个对象,需要对其进行响应式处 - 深度代理、获取对象的dep
+  let childDep = observer(value);
+  // 给每一个属性都添加一个dep
+  let dep = new Dep();
 
   Object.defineProperty(data, key, {
     get() {
+      // 收集依赖 watcher
+      if (Dep.target) {
+        dep.depend();
+        // 确保是对象类型,数组收集依赖更新视图
+        if (childDep.dep) {
+          childDep.dep.depend();
+        }
+      }
+      // console.log('========dep', Dep.target, dep);
       return value;
     },
     set(newVal) {
@@ -97,6 +112,8 @@ function defineReactive (data, key, value) {
       observer(newVal)
 
       value = newVal;
+      // 更新视图
+      dep.notify()
     }
   })
 }

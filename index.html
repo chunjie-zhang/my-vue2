@@ -12,22 +12,28 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app" style="font-size: 14px"><div class="container" style="color: red;">hello, {{ msg }} 你好。{{ data }}</div><h1>Vue</h1></h1></div></div>
+  <div id="app" style="font-size: 14px">
+    <div class="container" style="color: red;">
+      hello, {{ msg }} 你好。{{ data }}{{name}}
+    </div>
+    <h1>Vue</h1>
+    <h1>{{obj.list}}</h1>
+   </div>
   <script src="./dist/vue.js"></script>
   <script>
     // umd Vue
     // console.log(window.Vue);
-    Vue.mixin({
-      created: function a() {
-        console.log('=====global-created');
-      }
-    })
+    // Vue.mixin({
+    //   created: function a() {
+    //     console.log('=====global-created');
+    //   }
+    // })
 
-    Vue.mixin({
-      created: function b() {
-        console.log('=====global-created2');
-      }
-    })
+    // Vue.mixin({
+    //   created: function b() {
+    //     console.log('=====global-created2');
+    //   }
+    // })
 
     // 响应式 vue2
     const vm = new Vue({
@@ -43,7 +49,8 @@
               c: 2
             },
             list: [1,2,3,4]
-          }
+          },
+          name: 'zhangchunjie'
         }
       },
       props: {
@@ -67,6 +74,15 @@
     console.log('=======vm4', vm._data);
     console.log('=======vm5', vm.obj.list);
     console.log('=======vm6', vm);
+    setTimeout(() => {
+      vm.msg = '张春节'
+      console.log('=======vm7', vm);
+    }, 1000);
+    setTimeout(() => {
+      vm.obj.list.push('张春节');
+      vm.obj.list[2] = '88888';
+      console.log('=======vm8', vm);
+    }, 1000);
   </script>
 </body>
 </html>

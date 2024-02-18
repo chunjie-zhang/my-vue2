@@ -37,6 +37,7 @@ export function renderMixin (Vue) {
   Vue.prototype._render = function () {
     let vm = this;
     let render = vm.$options.render;
+    // 这个时候data的数据和需要的函数都在vm的实例上，根据with的作用域可以直接拿到使用
     let vnode = render.call(this)
     return vnode;
   }

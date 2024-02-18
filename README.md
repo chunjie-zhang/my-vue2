@@ -25,3 +25,19 @@ template render el
 ## 3.vue的生命周期
 (1) Vue.mixin() // 混入
 (2) 设计模式 发布订阅 vue options:{data: [], watch:[]}
+
+## 4.依赖收集&自动更新
+自动更新：
+1. 数据变化，自动更新视图 vm._updata(vm._render())
+2. vue中更新组件策略是：以组件为单位，给每一个组件添加一个watcher，属性变化后，调用这个watcher
+
+对象依赖收集：
+1. dep和watcher关系 多对多 computed
+
+数组依赖收集：
+思路：
+1. 我们要给所有的对象类型增加一个dep []
+2. 获取数组的值，会调用get方法，我们希望让当前数组这个渲染的watcher
+  2.1 需要获取当前的dep
+  2.2 当前面对数组取值的时候，我们就让数组的dep记住这个watcher
+3. 我们获取更新数组的时候push等，找到我们这个watcher进行更新

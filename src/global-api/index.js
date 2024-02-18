@@ -6,6 +6,6 @@ export function initGlobalApi (Vue) {
     // 源码
     // Vue.options = { created: [a, b, c], watch: [a,b,c]}
     this.options = mergeOptions(this.options, mixin)
-    console.log('======mergeField', this.options);
+    // console.log('======mergeField', this.options);
   }
 }
