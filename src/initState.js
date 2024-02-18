@@ -1,4 +1,5 @@
 import { observer } from "./observe/index";
+import { nextTick } from "./utils/nextTick";
 
 /*
  * @Author: zhangchunjie8 zhangchunjie8@jd.com
@@ -63,4 +64,12 @@ function proxy (vm, source, key) {
       vm[source][key] = newVal;
     }
   })
+}
+
+// 
+export function stateMixin(Vue) {
+  // 通常用于数据更新后获取最新的dom
+  Vue.prototype.$nextTick = function (cb) {
+    nextTick(cb);
+  }
 }

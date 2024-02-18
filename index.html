@@ -86,6 +86,9 @@
       vm.obj.list[2] = '88888';
       console.log('=======vm8', vm);
     }, 1000);
+    vm.$nextTick(() => {
+      console.log(vm.$el);
+    });
   </script>
 </body>
 </html>

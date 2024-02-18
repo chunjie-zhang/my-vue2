@@ -1,3 +1,4 @@
+import { nextTick } from '../utils/nextTick';
 import { pushTarget, popTarget } from './dep'
 
 let id = 0;
@@ -75,6 +76,14 @@ let has = {};
 // 是否已经执行过
 let pedding = false;
 
+// 列队处理的操作
+function finishWatcher() {
+  queue.forEach((item) => item.run())
+  queue = [];
+  has = {};
+  pedding = false;
+}
+
 /**
  * 队列处理，解决多次重复更新的问题
  * @param {*} watcher 
@@ -87,12 +96,13 @@ function queueWatcher(watcher) {
     queue.push(watcher);
     // 防抖处理
     if (!pedding) {
-      setTimeout(() => {
-        queue.forEach((item) => item.run())
-        queue = [];
-        has = {};
-        pedding = false;
-      }, 0)
+      // setTimeout(() => {
+        // queue.forEach((item) => item.run())
+        // queue = [];
+        // has = {};
+        // pedding = false;
+      // }, 0)
+      nextTick(finishWatcher); // nextTick相当于定时器
     }
     pedding = true;
   }

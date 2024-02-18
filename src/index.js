@@ -6,6 +6,7 @@
  */
 import { initGlobalApi } from './global-api/index';
 import { initMixin } from './init';
+import { stateMixin } from './initState';
 import { lifecycleMixin } from './lifecycle';
 import { renderMixin } from './vnode/index';
 
@@ -38,5 +39,7 @@ renderMixin(Vue);
  * Vue.mixin Vue.component Vue.extend
  */
 initGlobalApi(Vue)
+
+stateMixin(Vue);
 
 export default Vue;
