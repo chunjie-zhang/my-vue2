@@ -17,6 +17,7 @@ export function mounteComponent (vm, el) {
   // （2）vm._update将vnode变为真实dom放到页面
   let updateComponent = () => {
     vm._updata(vm._render())
+    console.log('=======updateComponent');
   }
   // 每个组件添加watcher
   new Watcher(vm, updateComponent, () =>{}, true);

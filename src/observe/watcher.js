@@ -48,6 +48,10 @@ class Watcher {
     }
   }
 
+  run() {
+    this.get();
+  }
+
   // 初次渲染 在数据劫持get时，进行dep的收集
   get() {
     // 将watcher传给dep，在data响应式get时触发dep的depend方法进行双向绑定
@@ -59,7 +63,38 @@ class Watcher {
   }
   // 在数据更新set时更新视图
   update() {
-    this.getter();
+    // 注意: 不要数据更新后每次都调用get 方法
+    queueWatcher(this);
+  }
+}
+
+// 将需要批量更新的watcher存放到一个队列中
+let queue = [];
+// 存放watcher的id
+let has = {};
+// 是否已经执行过
+let pedding = false;
+
+/**
+ * 队列处理，解决多次重复更新的问题
+ * @param {*} watcher 
+ */
+function queueWatcher(watcher) {
+  let id = watcher.id; // 每个组件都是同一个id
+  if (!has[id]) {
+    // 队列处理
+    has[id] = true;
+    queue.push(watcher);
+    // 防抖处理
+    if (!pedding) {
+      setTimeout(() => {
+        queue.forEach((item) => item.run())
+        queue = [];
+        has = {};
+        pedding = false;
+      }, 0)
+    }
+    pedding = true;
   }
 }
 

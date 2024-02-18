@@ -86,15 +86,16 @@ class Observer {
 function defineReactive (data, key, value) {
   // value可能是一个对象,需要对其进行响应式处 - 深度代理、获取对象的dep
   let childDep = observer(value);
-  // 给每一个属性都添加一个dep
+  // 1. 给每一个属性都添加一个dep
   let dep = new Dep();
 
+  // 2. 将dep存放起来，当页面取值时，说明这个值用来渲染，再将这个watcher和这个属性对应起来
   Object.defineProperty(data, key, {
     get() {
-      // 收集依赖 watcher
+      // 对象属性收集依赖 watcher
       if (Dep.target) {
         dep.depend();
-        // 确保是对象类型,数组收集依赖更新视图
+        // 3. 当我们对arr取值时，我们就让数组的dep记住这个watcher，数组收集依赖更新视图
         if (childDep.dep) {
           childDep.dep.depend();
         }
