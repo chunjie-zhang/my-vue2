@@ -47,3 +47,4 @@ template render el
 批量处理 vue异步更新视图 数据更新后不会马上执行。
 
 ## 5. nextTick
+$nextTick和数据更新的异步操作是一个方法，nextTick.主要就是防抖基本操作

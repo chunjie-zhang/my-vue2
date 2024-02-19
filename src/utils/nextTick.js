@@ -22,9 +22,13 @@ if (Promise) {
   timerFunc = () => {
     textNode.textContent = 2;
   }
-} else if(setImmediate) {
+} else if (setImmediate) {
   timerFunc = () => {
     setImmediate(flush);
+  }
+} else {
+  timerFunc = () => {
+    setTimeout(flush, 0)
   }
 }
 

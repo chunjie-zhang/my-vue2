@@ -20,7 +20,9 @@ export function mounteComponent (vm, el) {
     console.log('=======updateComponent');
   }
   // 每个组件添加watcher
-  new Watcher(vm, updateComponent, () =>{}, true);
+  new Watcher(vm, updateComponent, () =>{
+    callHook(vm, 'updated');
+  }, true);
 
   // 调用mounted生命周期
   callHook(vm, 'mounted');

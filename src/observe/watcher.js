@@ -78,7 +78,12 @@ let pedding = false;
 
 // 列队处理的操作
 function finishWatcher() {
-  queue.forEach((item) => item.run())
+  queue.forEach((item) => {
+    // 更新视图
+    item.run();
+    // updated生命周期执行
+    item.cb();
+  })
   queue = [];
   has = {};
   pedding = false;
