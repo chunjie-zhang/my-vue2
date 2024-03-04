@@ -13,28 +13,51 @@ let id = 0;
  * 
  * @class
  * @vm vue实例
- * @updateComponent 更新组件
+ * @exprOrf 更新组件
  * @cb 回调函数 - 处理计算属性
  * @options 标识处理渲染的
  * 
  */
-class Watcher {
-
-  constructor(vm, updateComponent, cb, options) {
+export class Watcher {
+/**
+ * Creates an instance of Watcher.
+ * @param {*} vm vue实例
+ * @param {*} exprOrf 监听更新
+ * @param {*} cb 监听依赖需要更新的回调函数
+ * @param {*} options 配置项
+ * @memberof Watcher
+ */
+constructor(vm, exprOrf, cb, options) {
     this.vm = vm;
-    this.exprOrfn = updateComponent;
+    this.exprOrfn = exprOrf;
     this.cb = cb;
+    // 每个组件只有一个watcher， id是标识
     this.id = id++;
     this.options = options;
+    this.user = !!options.user;
     this.deps = []; // watcher存放dep
     this.depsId = new Set();
 
-    if (typeof updateComponent === 'function') {
-      this.getter = updateComponent; // 用来更新视图
+    if (typeof exprOrf === 'function') {
+      this.getter = exprOrf; // 用来更新视图
+    } else { // watch传对象的key，是字符串-需要变为函数
+      this.getter = function () { // watch的属性可能是'msg.obj.zcj'
+        let path = exprOrf.split('.');
+        let obj = vm;
+        for (let i = 0; i < path.length; i++) {
+          obj = obj[path[i]]
+        }
+        console.log('=====obj', obj)
+        return obj;
+      }
     }
 
-    // 更新视图
-    this.get();
+    /***
+     * 更新视图
+     * 1. 执行页面渲染
+     * 2. 保存watch初始值
+     */
+    this.value = this.get();
   }
 
   /***
@@ -48,19 +71,30 @@ class Watcher {
       dep.addSub(this);
     }
   }
-
+  /***
+   * watch的newval, oldVal
+  */
   run() {
-    this.get();
+    // 新值
+    let newVal = this.get(); // 新值
+    let oldVal = this.value; // 旧值
+    this.value = newVal;
+    
+    // 执行handler -> cb
+    if (this.user) {
+      this.cb.call(this.vm, newVal, oldVal);
+    }
   }
 
   // 初次渲染 在数据劫持get时，进行dep的收集
   get() {
     // 将watcher传给dep，在data响应式get时触发dep的depend方法进行双向绑定
     pushTarget(this);
-    // 渲染页面 vm._updata(vm._render())
-    this.getter();
+    // 渲染页面 vm._updata(vm._render())，读取data数据进行dep收集
+    const value = this.getter();
     // 双向绑定成功，给dep取消watcher
     popTarget();
+    return value;
   }
   // 在数据更新set时更新视图
   update() {
@@ -81,8 +115,10 @@ function finishWatcher() {
   queue.forEach((item) => {
     // 更新视图
     item.run();
-    // updated生命周期执行
-    item.cb();
+    if (!item.user) {
+      // updated生命周期执行
+      item.cb();
+    }
   })
   queue = [];
   has = {};

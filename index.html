@@ -56,8 +56,26 @@
       props: {
 
       },
+      methods: {
+        objWatch: (newVal, oldVal) => {
+          console.log('======objWatch变化了', newVal, oldVal)
+        }
+      },
       watch: {
-        
+        msg: (newVal, oldVal) => {
+          console.log('=====watch-msg', newVal, oldVal)
+        },
+        'obj.b.c': (newVal, oldVal) => {
+          console.log('=====watch-obj.b.c', newVal, oldVal)
+        },
+        obj: 'objWatch',
+        data: {
+          handler: (newVal, oldVal) => {
+            console.log('=====watch-data', newVal, oldVal)
+          },
+          immediate: true,
+          deep: true,
+        }
       },
       created() {
         console.log('======created3');

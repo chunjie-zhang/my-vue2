@@ -48,3 +48,54 @@ template render el
 
 ## 5. nextTick
 $nextTick和数据更新的异步操作是一个方法，nextTick.主要就是防抖基本操作
+
+## 6. watch
+最终是$watch方法实现的 - 实现$watch方法 就是 new Watcher - 渲染走渲染watcher, $watch 走 watcher user = false
+watch基本使用方法：
+
+1. 属性：方法
+```js
+watch: {
+  a: (newVal, oldVal) => {
+    console.log(newVal);
+  }
+}
+```
+2. 属性：数组
+```js
+watch: {
+  a: [
+    (newVal, oldVal) => {
+    console.log(newVal);
+    },
+    (newVal, oldVal) => {
+      console.log(newVal);
+    }
+  ]
+}
+```
+3. 属性：对象
+```js
+watch: {
+  a: {
+    handler:  (newVal, oldVal) => {
+      console.log(newVal);
+    },
+    immediate: true,
+    deep: true
+  }
+}
+```
+4. 属性：字符串
+```js
+methods: {
+  aa: () => {
+    console.log(1111);
+  }
+},
+watch: {
+  a: 'aa'
+}
+```
+
+
